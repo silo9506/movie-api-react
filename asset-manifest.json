@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/silo9506/movie-api-react/static/js/main.22872ae2.js",
-    "index.html": "/silo9506/movie-api-react/index.html",
-    "main.22872ae2.js.map": "/silo9506/movie-api-react/static/js/main.22872ae2.js.map"
+    "main.js": "/movie-api-react/static/js/main.3a89c879.js",
+    "index.html": "/movie-api-react/index.html",
+    "main.3a89c879.js.map": "/movie-api-react/static/js/main.3a89c879.js.map"
   },
   "entrypoints": [
-    "static/js/main.22872ae2.js"
+    "static/js/main.3a89c879.js"
   ]
 }
