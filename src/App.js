@@ -1,14 +1,22 @@
+import { Fragment } from "react";
+import GlobalStyles from "./GlobalStyles ";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Detail from "./routers/Detail";
-import Home from "./routers/Home";
+import Detail from "./components/templates/Detail";
+import Home from "./components/templates/Home";
+import Search from "./components/templates/Search";
+
 function App() {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/movie/:id" element={<Detail />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <Fragment>
+      <GlobalStyles />
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/movie/:id" element={<Detail />}></Route>
+          <Route path="/search" element={<Search />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </Fragment>
   );
 }
 
