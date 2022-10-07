@@ -6,6 +6,7 @@ import { ReactComponent as ArrowL } from "../../assets/icon/arrow_left01.svg";
 const Carousel = ({ contents }) => {
   //   const slideContents = document.querySelectorAll(".slide_content");
   //   const slideLength = slideContents.length;
+  console.log(contents);
   const slideLength = contents.length;
   const [slideContents, setSlideContents] = useState(contents);
   const [counte, setCounte] = useState(0);
@@ -56,7 +57,7 @@ const Carousel = ({ contents }) => {
           transition={transition}
         >
           {slideContents.map((item, index) => (
-            <Contents key={index}>{item.movieNm}</Contents>
+            <Contents key={index}>{item.title}</Contents>
           ))}
         </Flexbox>
       </Wrapper>

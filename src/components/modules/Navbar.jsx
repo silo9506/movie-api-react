@@ -1,12 +1,19 @@
 import styled, { css } from "styled-components";
 import { ReactComponent as SearchIcon } from "../../assets/icon/search01.svg";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { searchMovie } from "../../api/api";
 
 const Navbar = () => {
+  const [text, setText] = useState("");
+  const [params, setParams] = useState({});
   const navigate = useNavigate();
 
-  const onSearch = () => {
-    navigate(`/search`);
+  const onSearch = async () => {
+    await setParams((prev) => (prev.query = text));
+    console.log(params);
+    await searchMovie(params).then((data) => console.log(data));
+    // navigate(`/search`);
   };
 
   return (
@@ -17,6 +24,11 @@ const Navbar = () => {
           <SearchIcon />
         </div>
         <input
+          value={text}
+          onChange={(e) => {
+            console.log(e.target.value);
+            setText(e.target.value);
+          }}
           onKeyPress={(e) => {
             if (e.key === "Enter") return onSearch();
           }}

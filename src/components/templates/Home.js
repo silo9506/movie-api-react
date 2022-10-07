@@ -1,46 +1,56 @@
 import { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
-import { getBoxoffice, Test } from "../../api/api";
+import {
+  BoxofficeResult,
+  getBoxofficedata,
+  searchMovie,
+  Test,
+} from "../../api/api";
 import Carousel from "../modules/Carousel";
 import Navbar from "../modules/Navbar";
 function Home() {
   const [loding, setLoding] = useState(true);
   const [movies, setMovies] = useState([]);
-  const SearchBoxoffic = async () => {
-    setMovies(await getBoxoffice());
-    setLoding(false);
+
+  const getcontents = async () => {
+    await searchMovie({
+      genre: "액션",
+      sort: "prodYear,1",
+      type: "극영화",
+    }).then((data) => {
+      setMovies((prev) => [...prev, { genre: "Action", item: data }]);
+    });
+    await searchMovie({
+      genre: "멜로드라마",
+      sort: "prodYear,1",
+      type: "극영화",
+    }).then((data) => {
+      setMovies((prev) => [...prev, { genre: "Melodrama", item: data }]);
+    });
+    await searchMovie({
+      genre: "스릴러",
+      sort: "prodYear,1",
+      type: "극영화",
+    }).then((data) => {
+      setMovies((prev) => [...prev, { genre: "Thriller", item: data }]);
+    });
+    console.log("setmovie");
   };
-
-  Test().then((data) => console.log(data));
-
   useEffect(() => {
-    SearchBoxoffic();
+    const result = async () => {
+      await getcontents();
+      console.log("resut");
+      setLoding(false);
+    };
+    result();
+    console.log("기본화면");
   }, []);
 
+  useEffect(() => {
+    console.log("로딩완료");
+  }, [loding]);
+
   console.log(movies);
-
-  // return (
-  //   <div>
-  //     {loding ? (
-  //       <h1>Loding...</h1>
-  //     ) : (
-  //       movies.map((movie) => (
-  //         <Movies
-  //           key={movie.id}
-  //           mediumImg={movie.medium_cover_image}
-  //           title={movie.title}
-  //           summary={movie.summary}
-  //           genres={movie.genres}
-  //           id={movie.id}
-  //         />
-  //       ))
-  //     )}
-  //   </div>
-  // );
-
-  // getBoxoffice().then((json) =>
-  //   console.log(json.boxOfficeResult.dailyBoxOfficeList)
-  // );
 
   return (
     <Container>
@@ -49,13 +59,19 @@ function Home() {
         <h1>loding</h1>
       ) : (
         <CarouselBox>
-          <Title>Box Office</Title>
-          <Carousel contents={movies.boxOfficeResult.dailyBoxOfficeList} />
+          {movies.map((movie, index) => (
+            <Fragment key={index}>
+              <Title>{movie.genre}</Title>
+              <Carousel contents={movie.item}></Carousel>
+            </Fragment>
+          ))}
+          {/* <Carousel contents={movies.boxOfficeResult.dailyBoxOfficeList} /> */}
         </CarouselBox>
       )}
     </Container>
   );
 }
+
 const Container = styled.div`
   min-height: 100vh;
   background-color: var(--bg-color);
@@ -72,3 +88,47 @@ const Title = styled.div`
 `;
 
 export default Home;
+
+// api 충돌
+// const [boxofficeData, setBoxofficeData] = useState();
+// const [boxoffice, setBoxoffice] = useState([]);
+// const [boxofficeResult, setBoxofficeResult] = useState();
+// const searchBoxoffic = async () => {
+//   setBoxofficeData(await getBoxofficedata());
+// };
+
+// // const getBoxoffice = async () => {
+// //   setBoxofficeResult(() => ({ boxoffice }));
+// // };
+
+// useEffect(() => {
+//   searchBoxoffic();
+// }, []);
+
+// useEffect(() => {
+//   if (boxofficeData !== undefined) {
+//     console.log(boxofficeData.boxOfficeResult.dailyBoxOfficeList);
+//     boxofficeData.boxOfficeResult.dailyBoxOfficeList.map((item) =>
+//       setBoxoffice((prev) => [...prev, { query: item.movieNm }])
+//     );
+//   }
+// }, [boxofficeData]);
+
+// useEffect(() => {
+//   // getBoxoffice();
+//   const result = async () => {
+//     const data = await Promise.all(
+//       boxoffice.map(
+//         (item) =>
+//           BoxofficeResult(item).then((response) => console.log(response))
+
+//         // setMovies((prev) => [...prev, { boxoffice: BoxofficeResult(item) }])
+//       )
+//     );
+//   };
+//   result();
+// }, [boxoffice]);
+
+// // useEffect(() => {}, [movies]);
+// console.log(movies);
+// console.log(boxoffice);

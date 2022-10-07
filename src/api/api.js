@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const getyyyymmdd = () => {
   const now = new Date();
   const year = now.getFullYear();
@@ -6,29 +8,42 @@ export const getyyyymmdd = () => {
   return year + month + day;
 };
 
-export const getBoxoffice = async () => {
+export const getBoxofficedata = async () => {
   const respons = await (
     await fetch(
       `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${
         process.env.REACT_APP_KOBIS_KEY
-      }&targetDt=${getyyyymmdd() - 1}`
+      }&targetDt=${getyyyymmdd() - 1}&repNationCd=K`
     )
   ).json();
 
   return respons;
 };
 
-export const Test = async () => {
-  const respons = await (
-    await fetch(
-      `http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=${process.env.REACT_APP_KMDB_KEY}&detail=N&query="해리포터와비밀의방"`,
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-        },
-      }
-    )
-  ).json();
-  return respons;
+export const searchMovie = async (params) => {
+  const respons = await axios({
+    method: "GET",
+    url: `https://silo9506-proxy.herokuapp.com/http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2`,
+    params: {
+      ...params,
+      ServiceKey: process.env.REACT_APP_KMDB_KEY,
+      listCount: 10,
+      detail: "Y",
+    },
+  });
+  return respons.data.Data[0].Result;
 };
+
+// export const BoxofficeResult = async (params) => {
+//   const respons = await axios({
+//     method: "GET",
+//     url: `https://silo9506-proxy.herokuapp.com/http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2`,
+//     params: {
+//       ...params,
+//       ServiceKey: process.env.REACT_APP_KMDB_KEY,
+//       listCount: 10,
+//       detail: "Y",
+//     },
+//   });
+//   return respons.data.Data[0].Result;
+// };
