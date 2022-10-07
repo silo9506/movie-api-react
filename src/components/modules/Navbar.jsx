@@ -1,20 +1,14 @@
 import styled, { css } from "styled-components";
 import { ReactComponent as SearchIcon } from "../../assets/icon/search01.svg";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { searchMovie } from "../../api/api";
 
-const Navbar = () => {
-  const [text, setText] = useState("");
-  const [params, setParams] = useState({});
-  const navigate = useNavigate();
-
-  const onSearch = async () => {
-    await setParams((prev) => (prev.query = text));
-    console.log(params);
-    await searchMovie(params).then((data) => console.log(data));
-    // navigate(`/search`);
-  };
+const Navbar = ({ text, setText, onSearch }) => {
+  // const onSearch = async () => {
+  //   await setParams((prev) => (prev.query = text));
+  //   console.log(params);
+  //   await searchMovie(params).then((data) => setSearchData(data));
+  //   await console.log(searchData);
+  // };
 
   return (
     <Container>
@@ -26,7 +20,6 @@ const Navbar = () => {
         <input
           value={text}
           onChange={(e) => {
-            console.log(e.target.value);
             setText(e.target.value);
           }}
           onKeyPress={(e) => {
@@ -35,7 +28,7 @@ const Navbar = () => {
           placeholder="영화 검색"
         ></input>
       </InputBox>
-      <Btn onClick={onSearch}>검색</Btn>
+      <Btn onClick={() => onSearch()}>검색</Btn>
     </Container>
   );
 };

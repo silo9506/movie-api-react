@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const Filterbar = () => {
+const Filterbar = ({ title }) => {
   return (
     <Container>
-      <Title>의 검색 결과</Title>
+      <Title>{title} 의 검색 결과</Title>
     </Container>
   );
 };

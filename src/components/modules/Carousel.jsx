@@ -6,17 +6,27 @@ import { ReactComponent as ArrowL } from "../../assets/icon/arrow_left01.svg";
 const Carousel = ({ contents }) => {
   //   const slideContents = document.querySelectorAll(".slide_content");
   //   const slideLength = slideContents.length;
-  console.log(contents);
-  const slideLength = contents.length;
-  const [slideContents, setSlideContents] = useState(contents);
+  const slideLength = 10;
+  const [slideContents, setSlideContents] = useState([]);
   const [counte, setCounte] = useState(0);
   const [transition, setTransition] = useState(true);
-  let slideWidth = 300;
-
-  console.log(slideLength);
+  let slideWidth = 400;
+  const clone = () => {
+    setSlideContents((prev) => [...prev, ...prev, ...prev]);
+  };
   useEffect(() => {
     // 컨텐츠 복사
-    setSlideContents((prev) => [...prev, ...prev, ...prev]);
+    let counte = 0;
+    const result = async () => {
+      await contents.map((item) => {
+        if (item.posters !== "" && counte < 10) {
+          setSlideContents((prev) => [...prev, item]);
+          counte++;
+        }
+      });
+    };
+    result();
+    clone();
   }, []);
 
   const onClickNext = () => {
@@ -57,7 +67,16 @@ const Carousel = ({ contents }) => {
           transition={transition}
         >
           {slideContents.map((item, index) => (
-            <Contents key={index}>{item.title}</Contents>
+            <Contents key={index} slideWidth={slideWidth}>
+              <Poster
+                src={
+                  item.posters.includes("|")
+                    ? item.posters.split("|")[0]
+                    : item.posters
+                }
+                url={item.posters}
+              ></Poster>
+            </Contents>
           ))}
         </Flexbox>
       </Wrapper>
@@ -87,8 +106,9 @@ export default Carousel;
 const Container = styled.div`
   position: relative;
   margin: auto;
-  width: 100%;
+  width: 1200px;
   height: 100%;
+  border: 2.5px solid #3d383d;
   &:hover button {
     display: block;
   }
@@ -108,18 +128,27 @@ const Flexbox = styled.ul`
   transition: ${(props) => props.transition && "0.3s"};
 `;
 const Contents = styled.li`
-  background-color: red;
+  position: relative;
+  background-color: #3d383d;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 15px;
-  width: 300px;
+  width: ${({ slideWidth }) => slideWidth}px;
   height: 300px;
   flex-shrink: 0;
   /* display: flex;
   justify-content: center;
   align-items: center; */
+`;
+const Poster = styled.img`
+  padding: 0 2.5px;
+  width: 100%;
+  height: 100%;
+  /* background: ${({ url }) => `url(${url})`};
+  background-repeat: no-repeat;
+  background-size: 100% 100%; */
 `;
 
 const Btn = styled.button`

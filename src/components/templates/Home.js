@@ -1,60 +1,95 @@
 import { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-  BoxofficeResult,
-  getBoxofficedata,
-  searchMovie,
-  Test,
-} from "../../api/api";
+import { useNavigate } from "react-router-dom";
+
+import { getmovies, searchMovie } from "../../api/api";
 import Carousel from "../modules/Carousel";
 import Navbar from "../modules/Navbar";
 function Home() {
   const [loding, setLoding] = useState(true);
   const [movies, setMovies] = useState([]);
+  const [params, setParams] = useState({});
+  const [text, setText] = useState("");
+  const [searchData, setSearchData] = useState(undefined);
 
+  const navigate = useNavigate();
+
+  // 영화 가져오기
   const getcontents = async () => {
-    await searchMovie({
+    await getmovies({
       genre: "액션",
       sort: "prodYear,1",
       type: "극영화",
+      listCount: 30,
     }).then((data) => {
+      console.log("액션로드");
       setMovies((prev) => [...prev, { genre: "Action", item: data }]);
     });
-    await searchMovie({
+    await getmovies({
       genre: "멜로드라마",
       sort: "prodYear,1",
       type: "극영화",
+      listCount: 30,
     }).then((data) => {
+      console.log("멜로로드");
       setMovies((prev) => [...prev, { genre: "Melodrama", item: data }]);
     });
-    await searchMovie({
+    await getmovies({
       genre: "스릴러",
       sort: "prodYear,1",
       type: "극영화",
+      listCount: 30,
     }).then((data) => {
+      console.log("스릴러 로드");
       setMovies((prev) => [...prev, { genre: "Thriller", item: data }]);
     });
-    console.log("setmovie");
+    console.log("영화가져오기");
   };
+
+  // 검색키워드 변경
+  const onSearch = () => {
+    setParams({ query: text, listCount: 10, sort: "title,1" });
+  };
+
+  // 영화가져오기함수 실행
   useEffect(() => {
     const result = async () => {
       await getcontents();
-      console.log("resut");
       setLoding(false);
     };
     result();
-    console.log("기본화면");
+    console.log("init");
   }, []);
 
+  //검색결과 가져오기
   useEffect(() => {
-    console.log("로딩완료");
-  }, [loding]);
+    if (params.query === undefined) return;
+    console.log("검색값 : " + params.query);
+    searchMovie(params).then((data) => {
+      return setSearchData(data);
+    });
+  }, [params]);
 
-  console.log(movies);
+  // 검색결과 가져오기 함수 실행
+  useEffect(() => {
+    if (searchData !== undefined) {
+      console.log("검색완료");
+      navigate(`/search/:${params.query}`, { state: searchData });
+      console.log("페이지이동");
+    }
+  }, [searchData]);
+
+  useEffect(() => {
+    if (loding === false) console.log("로딩완료");
+  }, [loding]);
 
   return (
     <Container>
-      <Navbar></Navbar>
+      <Navbar
+        onSearch={() => onSearch()}
+        text={text}
+        setText={(value) => setText(value)}
+      ></Navbar>
       {loding ? (
         <h1>loding</h1>
       ) : (
@@ -65,7 +100,6 @@ function Home() {
               <Carousel contents={movie.item}></Carousel>
             </Fragment>
           ))}
-          {/* <Carousel contents={movies.boxOfficeResult.dailyBoxOfficeList} /> */}
         </CarouselBox>
       )}
     </Container>
@@ -78,7 +112,7 @@ const Container = styled.div`
   height: 100%;
 `;
 const CarouselBox = styled.div`
-  width: 80%;
+  width: 100%;
   margin: auto;
 `;
 const Title = styled.div`

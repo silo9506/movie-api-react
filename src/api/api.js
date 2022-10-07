@@ -20,6 +20,19 @@ export const getBoxofficedata = async () => {
   return respons;
 };
 
+export const getmovies = async (params) => {
+  const respons = await axios({
+    method: "GET",
+    url: `https://silo9506-proxy.herokuapp.com/http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2`,
+    params: {
+      ...params,
+      ServiceKey: process.env.REACT_APP_KMDB_KEY,
+      detail: "Y",
+    },
+  });
+  return respons.data.Data[0].Result;
+};
+
 export const searchMovie = async (params) => {
   const respons = await axios({
     method: "GET",
@@ -27,11 +40,10 @@ export const searchMovie = async (params) => {
     params: {
       ...params,
       ServiceKey: process.env.REACT_APP_KMDB_KEY,
-      listCount: 10,
       detail: "Y",
     },
   });
-  return respons.data.Data[0].Result;
+  return respons.data;
 };
 
 // export const BoxofficeResult = async (params) => {
