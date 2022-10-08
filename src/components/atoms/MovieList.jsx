@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 const MovieList = ({ data }) => {
-  console.log(data);
-  console.log(data.posters);
   return (
     <Container>
       {data.posters === "" ? (
@@ -20,7 +18,7 @@ const MovieList = ({ data }) => {
       )}
       <InfoBox>
         <Title>
-          <h1>{data.title.replace("!HS", "").replace("!HE", "")}</h1>
+          <h1>{data.title.replace(/!HS/g, "").replace(/!HE/g, "")}</h1>
           <span>
             (
             {data.repRlsDate === ""
@@ -30,25 +28,43 @@ const MovieList = ({ data }) => {
           </span>
         </Title>
         <Infomation>
-          {data.company && (
+          <h1>
+            제작
             <div>
-              제작사 <span>{data.company}</span>
+              {data.company ? (
+                <span>{data.company}</span>
+              ) : (
+                <span>정보없음</span>
+              )}
             </div>
-          )}
-          {data.directorNm && (
+          </h1>
+          <h1>
+            감독
             <div>
-              감독 <span>{data.directorNm}</span>
+              {data.directors.director[0].directorNm !== "" ? (
+                <span>{data.directors.director[0].directorNm}</span>
+              ) : (
+                <span>정보없음</span>
+              )}
             </div>
-          )}
-          {data.StaffNm && (
+          </h1>
+          <h1>
+            출연
             <div>
-              출연 <span>{data.StaffNm}</span>
+              {data.actors.actor.length > 1 ? (
+                data.actors.actor.map((item, index) => (
+                  <span key={index}>{item.actorNm}</span>
+                ))
+              ) : (
+                <span>정보없음</span>
+              )}
             </div>
-          )}
-          <Plot>
-            <div>{data.plots.plot[0].plotText}</div>
-          </Plot>
+          </h1>
         </Infomation>
+        <Plot>
+          <h1>줄거리</h1>
+          <div>{data.plots.plot[0].plotText}</div>
+        </Plot>
       </InfoBox>
     </Container>
   );
@@ -58,6 +74,10 @@ export default MovieList;
 
 const Container = styled.div`
   display: flex;
+  overflow-x: auto;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 
   /* height: 250px; */
 `;
@@ -67,7 +87,6 @@ const Poster = styled.img`
   max-height: 250px;
 `;
 const AltPoster = styled.div`
-  flex-shrink: 0;
   height: 100%;
   min-height: 250px;
   max-height: 250px;
@@ -83,16 +102,19 @@ const AltPoster = styled.div`
   }
 `;
 const InfoBox = styled.div`
+  padding: 0 15px;
   height: 100%;
+  overflow: hidden;
   flex: 1;
 `;
 const Title = styled.div`
   display: flex;
   align-items: center;
   font-size: 22px;
-  min-width: 0px;
+  margin-bottom: 10px;
   h1 {
-    min-width: 0px;
+    max-width: 80%;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -101,6 +123,31 @@ const Title = styled.div`
     color: #8a8d98;
   }
 `;
-const Infomation = styled.div``;
+const Infomation = styled.div`
+  & h1 {
+    white-space: nowrap;
+    color: #bca6a1;
+    display: flex;
+  }
+  & span {
+    padding-left: 5px;
+  }
+  & div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
 
-const Plot = styled.div``;
+const Plot = styled.div`
+  h1 {
+    width: 97%;
+    padding-bottom: 2.5px;
+    border-bottom: 1px solid white;
+    margin-bottom: 10px;
+  }
+  margin-top: 10px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 9;
+  overflow: hidden;
+`;

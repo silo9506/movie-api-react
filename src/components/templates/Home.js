@@ -1,19 +1,14 @@
 import { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-
-import { getmovies, searchMovie } from "../../api/api";
+import { useOutletContext } from "react-router-dom";
+import { getmovies } from "../../api/api";
 import Carousel from "../modules/Carousel";
-import Navbar from "../modules/Navbar";
 function Home() {
   const [loding, setLoding] = useState(true);
   const [movies, setMovies] = useState([]);
-  const [params, setParams] = useState({});
-  const [text, setText] = useState("");
-  const [searchData, setSearchData] = useState(undefined);
-
-  const navigate = useNavigate();
-
+  const conText = useOutletContext();
+  // const loding = conText.loding;
+  // const setLoding = conText.setLoding;
   // 영화 가져오기
   const getcontents = async () => {
     await getmovies({
@@ -46,11 +41,6 @@ function Home() {
     console.log("영화가져오기");
   };
 
-  // 검색키워드 변경
-  const onSearch = () => {
-    setParams({ query: text, listCount: 10, sort: "title,1" });
-  };
-
   // 영화가져오기함수 실행
   useEffect(() => {
     const result = async () => {
@@ -61,35 +51,12 @@ function Home() {
     console.log("init");
   }, []);
 
-  //검색결과 가져오기
-  useEffect(() => {
-    if (params.query === undefined) return;
-    console.log("검색값 : " + params.query);
-    searchMovie(params).then((data) => {
-      return setSearchData(data);
-    });
-  }, [params]);
-
-  // 검색결과 가져오기 함수 실행
-  useEffect(() => {
-    if (searchData !== undefined) {
-      console.log("검색완료");
-      navigate(`/search/:${params.query}`, { state: searchData });
-      console.log("페이지이동");
-    }
-  }, [searchData]);
-
   useEffect(() => {
     if (loding === false) console.log("로딩완료");
   }, [loding]);
 
   return (
     <Container>
-      <Navbar
-        onSearch={() => onSearch()}
-        text={text}
-        setText={(value) => setText(value)}
-      ></Navbar>
       {loding ? (
         <h1>loding</h1>
       ) : (
@@ -107,9 +74,9 @@ function Home() {
 }
 
 const Container = styled.div`
-  min-height: 100vh;
+  /* min-height: 100vh;
   background-color: var(--bg-color);
-  height: 100%;
+  height: 100%; */
 `;
 const CarouselBox = styled.div`
   width: 100%;

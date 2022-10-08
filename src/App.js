@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Detail from "./components/templates/Detail";
 import Home from "./components/templates/Home";
 import Search from "./components/templates/Search";
+import Main from "./components/templates/Main";
 
 function App() {
   return (
@@ -11,9 +12,11 @@ function App() {
       <GlobalStyles />
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/movie/:id" element={<Detail />}></Route>
-          <Route path="/search/:query" element={<Search />}></Route>
+          <Route path="/" element={<Main />}>
+            <Route index element={<Home />} />
+            <Route path="/movie/:id" element={<Detail />}></Route>
+            <Route path="/search/:query" element={<Search />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </Fragment>

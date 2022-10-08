@@ -3,13 +3,6 @@ import { ReactComponent as SearchIcon } from "../../assets/icon/search01.svg";
 import { useState } from "react";
 
 const Navbar = ({ text, setText, onSearch }) => {
-  // const onSearch = async () => {
-  //   await setParams((prev) => (prev.query = text));
-  //   console.log(params);
-  //   await searchMovie(params).then((data) => setSearchData(data));
-  //   await console.log(searchData);
-  // };
-
   return (
     <Container>
       <Title>RumbleMovies</Title>
