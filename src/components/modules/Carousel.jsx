@@ -10,10 +10,42 @@ const Carousel = ({ contents }) => {
   const [slideContents, setSlideContents] = useState([]);
   const [counte, setCounte] = useState(0);
   const [transition, setTransition] = useState(true);
-  let slideWidth = 400;
+  const [slideWidth, setSlideWidth] = useState(400);
+  // let slideWidth = 400;
+  let timmer = null;
+  const resize = () => {
+    console.log("resize");
+    if (window.innerWidth <= 700) {
+      setSlideWidth(200);
+      return;
+    }
+    if (window.innerWidth <= 900) {
+      setSlideWidth(266);
+      return;
+    }
+    if (window.innerWidth <= 1100) {
+      setSlideWidth(333);
+      return;
+    }
+    if (window.innerWidth <= 1300) {
+      setSlideWidth(400);
+      return;
+    }
+  };
+
+  const onResize = () => {
+    if (timmer) {
+      clearTimeout(timmer);
+    }
+    timmer = setTimeout(() => {
+      resize();
+    }, 100);
+  };
+
   const clone = () => {
     setSlideContents((prev) => [...prev, ...prev, ...prev]);
   };
+
   useEffect(() => {
     // 컨텐츠 복사
     let counte = 0;
@@ -27,6 +59,12 @@ const Carousel = ({ contents }) => {
     };
     result();
     clone();
+    console.log(slideContents);
+    window.addEventListener("resize", onResize);
+    resize();
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   const onClickNext = () => {
@@ -111,6 +149,21 @@ const Container = styled.div`
   border: 2.5px solid #3d383d;
   &:hover button {
     display: block;
+  }
+  @media screen and (max-width: 1300px) {
+    width: 1000px;
+  }
+  @media screen and (max-width: 1100px) {
+    width: 800px;
+  }
+  @media screen and (max-width: 900px) {
+    width: 600px;
+  }
+  @media screen and (max-width: 650px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 200px;
   }
 `;
 const Wrapper = styled.div`

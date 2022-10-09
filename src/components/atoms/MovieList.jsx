@@ -80,11 +80,25 @@ const Container = styled.div`
   box-sizing: border-box;
 
   /* height: 250px; */
+  @media screen and (max-width: 450px) {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
 `;
 const Poster = styled.img`
   height: 100%;
   width: 180px;
   max-height: 250px;
+  @media screen and (max-width: 600px) {
+    width: 150px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 120px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 `;
 const AltPoster = styled.div`
   height: 100%;
@@ -99,6 +113,13 @@ const AltPoster = styled.div`
   h1 {
     color: #581a0e;
     text-shadow: 1px 1px 2px #030001;
+  }
+  @media screen and (max-width: 500px) {
+    width: 120px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 100%;
+    margin-bottom: 10px;
   }
 `;
 const InfoBox = styled.div`

@@ -1,27 +1,31 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { ReactComponent as SearchIcon } from "../../assets/icon/search01.svg";
-import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = ({ text, setText, onSearch }) => {
+  const location = useLocation();
   return (
     <Container>
       <Title>RumbleMovies</Title>
-      <InputBox>
-        <div>
-          <SearchIcon />
-        </div>
-        <input
-          value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-          }}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") return onSearch();
-          }}
-          placeholder="영화 검색"
-        ></input>
-      </InputBox>
-      <Btn onClick={() => onSearch()}>검색</Btn>
+      <Wrapper>
+        <Navbtn>{location.pathname !== "/" && <Link to="/">홈</Link>}</Navbtn>
+        <InputBox>
+          <div>
+            <SearchIcon />
+          </div>
+          <input
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value);
+            }}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") return onSearch();
+            }}
+            placeholder="영화 검색"
+          ></input>
+          <Btn onClick={() => onSearch()}>검색</Btn>
+        </InputBox>
+      </Wrapper>
     </Container>
   );
 };
@@ -31,12 +35,19 @@ export default Navbar;
 const Container = styled.div`
   background: var(--nav-bg-color);
   z-index: 100;
-  height: 56px;
+  min-height: 56px;
   display: flex;
   align-items: center;
   position: sticky;
   top: 0;
   padding: 0 50px;
+  @media screen and (max-width: 750px) {
+    flex-direction: column;
+    height: 100%;
+  }
+  @media screen and (max-width: 500px) {
+    padding: 0px;
+  }
 `;
 const Title = styled.div`
   font-size: 30px;
@@ -73,6 +84,16 @@ const InputBox = styled.div`
     border: none;
     outline: none;
   }
+  @media screen and (max-width: 500px) {
+    input {
+      min-width: 25px;
+      padding: 0px;
+      text-indent: 15px;
+    }
+    div {
+      display: none;
+    }
+  }
 `;
 const Btn = styled.button`
   padding: 8px 15px;
@@ -80,4 +101,12 @@ const Btn = styled.button`
   border-radius: 4px;
   border: none;
   cursor: pointer;
+`;
+const Wrapper = styled.div`
+  display: flex;
+`;
+const Navbtn = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
 `;
