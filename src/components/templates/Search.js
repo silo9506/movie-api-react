@@ -28,7 +28,7 @@ const Search = () => {
 
   return (
     <Container>
-      <Filterbar title={location.state.Query}></Filterbar>
+      <Filterbar title={location.state.movie.Query}></Filterbar>
       {location.state.movie.Data[0].Result === undefined ? (
         <Altbox>검색결과가 없습니다.</Altbox>
       ) : (
