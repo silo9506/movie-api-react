@@ -46,6 +46,8 @@ const Pageination = ({ totalPage }) => {
 
 const Page = styled.button`
   cursor: pointer;
+  color: var(--logo-color);
+  background-color: var(--input-bg-color);
   @media screen and (max-width: 450px) {
     font-size: 8px;
   }
@@ -63,8 +65,8 @@ const Page = styled.button`
 const List = styled.div`
   display: flex;
   justify-content: center;
-  margin: 10px auto;
-  width: 350px;
+  margin: auto;
+  margin-top: 32px;
   height: 25px;
   @media screen and (max-width: 350px) {
     width: 100%;

@@ -6,9 +6,14 @@ const Navbar = ({ text, setText, onSearch }) => {
   const location = useLocation();
   return (
     <Container>
-      <Title>RumbleMovies</Title>
+      {location.pathname !== "/" ? (
+        <Link to="/">
+          <Title>RumbleMovies</Title>
+        </Link>
+      ) : (
+        <Title>RumbleMovies</Title>
+      )}
       <Wrapper>
-        <Navbtn>{location.pathname !== "/" && <Link to="/">홈</Link>}</Navbtn>
         <InputBox>
           <div>
             <SearchIcon />
@@ -31,7 +36,6 @@ const Navbar = ({ text, setText, onSearch }) => {
 };
 
 export default Navbar;
-
 const Container = styled.div`
   background: var(--nav-bg-color);
   z-index: 100;
@@ -47,6 +51,9 @@ const Container = styled.div`
   }
   @media screen and (max-width: 500px) {
     padding: 0px;
+  }
+  a {
+    flex-grow: 1;
   }
 `;
 const Title = styled.div`
@@ -104,9 +111,4 @@ const Btn = styled.button`
 `;
 const Wrapper = styled.div`
   display: flex;
-`;
-const Navbtn = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
 `;

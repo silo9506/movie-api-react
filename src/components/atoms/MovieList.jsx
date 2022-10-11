@@ -105,14 +105,14 @@ const AltPoster = styled.div`
   min-height: 250px;
   max-height: 250px;
   width: 180px;
-  background-color: #ae031a;
+  background-color: var(--logo-color);
   display: flex;
   align-items: flex-end;
   padding-bottom: 30px;
   justify-content: center;
   h1 {
     color: #581a0e;
-    text-shadow: 1px 1px 2px #030001;
+    text-shadow: 0px 1px 2px #030001;
   }
   @media screen and (max-width: 500px) {
     width: 120px;

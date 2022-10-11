@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../modules/Navbar";
 import { useState, useEffect } from "react";
@@ -101,7 +101,9 @@ const Main = () => {
   useEffect(() => {
     if (searchData !== undefined) {
       console.log("검색완료");
-      navigate(`/search/${params.query}`, { state: searchData });
+      navigate(`/search/${params.query}`, {
+        state: { movie: searchData, page: start },
+      });
       console.log("페이지이동");
       setLoding(false);
       console.log("로딩완료");
@@ -115,7 +117,9 @@ const Main = () => {
         setText={(value) => setText(value)}
       />
       {loding ? (
-        <Loading>loding</Loading>
+        <Loading>
+          <div></div>
+        </Loading>
       ) : (
         <Outlet
           context={{
@@ -140,13 +144,28 @@ const Container = styled.div`
   min-height: 100vh;
   background-color: var(--bg-color);
   height: 100%;
+  position: relative;
+  padding-bottom: 32px;
 `;
 
+const spin = keyframes`
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+
+`;
 const Loading = styled.div`
-  color: white;
-  width: 500px;
-  height: 100%;
-  margin: auto;
-  font-size: 40px;
-  background-color: red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+
+  div {
+    width: 120px;
+    height: 120px;
+    border: 16px solid var(--input-bg-color);
+    border-radius: 50%;
+    border-top: 16px solid var(--logo-color);
+    animation: ${spin} 2s linear infinite;
+  }
 `;
