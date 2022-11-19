@@ -112,9 +112,12 @@ const Main = () => {
   return (
     <Container>
       <Navbar
+        setMovies={(value) => setMovies(value)}
         onSearch={() => onSearch()}
         text={text}
         setText={(value) => setText(value)}
+        getcontents={() => getcontents()}
+        setLoding={(value) => setLoding(value)}
       />
       {loding ? (
         <Loading>
@@ -142,7 +145,7 @@ const Main = () => {
 export default Main;
 const Container = styled.div`
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background-color: black;
   height: 100%;
   position: relative;
   padding-bottom: 32px;

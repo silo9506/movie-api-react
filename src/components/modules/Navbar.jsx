@@ -2,12 +2,27 @@ import styled from "styled-components";
 import { ReactComponent as SearchIcon } from "../../assets/icon/search01.svg";
 import { Link, useLocation } from "react-router-dom";
 
-const Navbar = ({ text, setText, onSearch }) => {
+const Navbar = ({
+  text,
+  setText,
+  onSearch,
+  getcontents,
+  setLoding,
+  setMovies,
+}) => {
   const location = useLocation();
+
+  const home = async () => {
+    setMovies("");
+    setLoding(true);
+    await getcontents();
+    setLoding(false);
+  };
+
   return (
     <Container>
       {location.pathname !== "/" ? (
-        <Link to="/">
+        <Link to="/" onClick={() => home()}>
           <Title>RumbleMovies</Title>
         </Link>
       ) : (

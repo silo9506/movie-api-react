@@ -32,7 +32,9 @@ const MovieList = ({ data }) => {
             제작
             <div>
               {data.company ? (
-                <span>{data.company}</span>
+                <span>
+                  {data.company.replace(/!HS/g, "").replace(/!HE/g, "")}
+                </span>
               ) : (
                 <span>정보없음</span>
               )}
@@ -42,7 +44,11 @@ const MovieList = ({ data }) => {
             감독
             <div>
               {data.directors.director[0].directorNm !== "" ? (
-                <span>{data.directors.director[0].directorNm}</span>
+                <span>
+                  {data.directors.director[0].directorNm
+                    .replace(/!HS/g, "")
+                    .replace(/!HE/g, "")}
+                </span>
               ) : (
                 <span>정보없음</span>
               )}
@@ -53,7 +59,9 @@ const MovieList = ({ data }) => {
             <div>
               {data.actors.actor.length > 1 ? (
                 data.actors.actor.map((item, index) => (
-                  <span key={index}>{item.actorNm}</span>
+                  <span key={index}>
+                    {item.actorNm.replace(/!HS/g, "").replace(/!HE/g, "")}
+                  </span>
                 ))
               ) : (
                 <span>정보없음</span>
@@ -63,7 +71,11 @@ const MovieList = ({ data }) => {
         </Infomation>
         <Plot>
           <h1>줄거리</h1>
-          <div>{data.plots.plot[0].plotText}</div>
+          <div>
+            {data.plots.plot[0].plotText
+              .replace(/!HS/g, "")
+              .replace(/!HE/g, "")}
+          </div>
         </Plot>
       </InfoBox>
     </Container>
