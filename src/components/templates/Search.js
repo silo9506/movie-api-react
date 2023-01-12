@@ -1,47 +1,69 @@
 import styled from "styled-components";
 import MovieList from "../atoms/MovieList";
-import Filterbar from "../modules/Filterbar";
-import { useLocation } from "react-router-dom";
+import Filterbar from "../atoms/Filterbar";
 import Pageination from "../atoms/Pageination";
-import { useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useState } from "react";
+import Loading from "components/atoms/Loading";
+import { useLayoutEffect } from "react";
 
-const Search = () => {
-  const location = useLocation();
-  console.log("서치창");
-  console.log(location.state.page);
-  const context = useOutletContext();
-  console.log(context.params);
-  console.log(location);
-  useEffect(() => {
-    if (JSON.stringify(context.params) === "{}") {
-      console.log("언디파인");
-      context.setParams({
-        query: location.state.movie.Query,
-        listCount: 10,
-        sort: "title,0",
-      });
-      context.setStart(location.state.page);
-      context.onPageChange(location.state.page);
+const Search = ({
+  activeModal,
+  changePage,
+  searchData,
+  popular,
+  mLoading,
+  query,
+  totalPage,
+  setPage,
+  page,
+}) => {
+  const [randomMovie, setRandomMovie] = useState(false);
+  useLayoutEffect(() => {
+    if (mLoading === false) {
+      setRandomMovie(popular.results[Math.floor(Math.random() * 19)]);
     }
-  }, []);
+  }, [mLoading]);
 
   return (
     <Container>
-      <Filterbar title={location.state.movie.Query}></Filterbar>
-      {location.state.movie.Data[0].Result === undefined ? (
-        <Altbox>검색결과가 없습니다.</Altbox>
+      {mLoading ? (
+        <Loading />
       ) : (
-        <Gridbox>
-          {location.state.movie.Data[0].Result.map((item) => (
-            <MovieList data={item} key={item.movieSeq}></MovieList>
-          ))}
-        </Gridbox>
-      )}
+        <>
+          {searchData === null ? (
+            <Hotmovie img={randomMovie.backdrop_path}>
+              <div className="title">{randomMovie.title}</div>
+              <div className="overview">{randomMovie.overview}</div>
+            </Hotmovie>
+          ) : (
+            <Searchbox>
+              <Filterbar>{query}</Filterbar>
+              {searchData.results.length === 0 ? (
+                <Altbox>검색결과가 없습니다.</Altbox>
+              ) : (
+                <Gridbox>
+                  {searchData.results.map((item, index) => {
+                    return (
+                      <MovieList
+                        key={item.id}
+                        activeModal={activeModal}
+                        data={item}
+                      ></MovieList>
+                    );
+                  })}
+                </Gridbox>
+              )}
 
-      <Pageination
-        totalPage={location.state.movie.Data[0].TotalCount}
-      ></Pageination>
+              <Pageination
+                changePage={changePage}
+                page={page}
+                totalPage={totalPage}
+                setPage={setPage}
+              ></Pageination>
+            </Searchbox>
+          )}
+        </>
+      )}
     </Container>
   );
 };
@@ -49,19 +71,44 @@ const Search = () => {
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  min-height: 100vh;
+  height: calc(100vh - 176px);
   background-color: var(--bg-color);
-  padding-bottom: 10px;
+  color: white;
+  display: flex;
+  overflow-y: scroll;
+  flex-direction: column;
 `;
+
+const Hotmovie = styled.div`
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  background-image: ${({ img }) =>
+    `linear-gradient(rgba(6, 13, 23, 0.4), var(--bg-color)),url(https://image.tmdb.org/t/p/original/${img})`};
+  background-repeat: no-repeat;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  padding: 0 30px;
+  .title {
+    font-size: 30px;
+  }
+  .overview {
+    line-height: 1.5;
+  }
+`;
+
+const Searchbox = styled.div`
+  height: 100%;
+`;
+
 const Gridbox = styled.div`
   width: 100%;
   padding: 0 50px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-gap: 20px;
-  @media screen and (max-width: 1000px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
 `;
 const Altbox = styled.div`
   padding: 0 50px;

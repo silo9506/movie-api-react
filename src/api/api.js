@@ -1,61 +1,58 @@
 import axios from "axios";
 
-export const getyyyymmdd = () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = ("0" + (1 + now.getMonth())).slice(-2);
-  var day = ("0" + now.getDate()).slice(-2);
-  return year + month + day;
-};
+export const Instance = axios.create({
+  baseURL: "https://silo9506-proxy.herokuapp.com/https://api.themoviedb.org/3/",
+  params: {
+    api_key: process.env.REACT_APP_TMDB_KEY,
+    region: "KR",
+    language: "ko",
+  },
+});
 
-export const getBoxofficedata = async () => {
-  const respons = await (
-    await fetch(
-      `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${
-        process.env.REACT_APP_KOBIS_KEY
-      }&targetDt=${getyyyymmdd() - 1}&repNationCd=K`
-    )
-  ).json();
-
+export const getMovies = async () => {
+  const action = await Instance({
+    url: "discover/movie",
+    params: {
+      sort_by: "popularity.desc",
+      with_genres: 28,
+    },
+  });
+  const comedy = await Instance({
+    url: "discover/movie",
+    params: {
+      sort_by: "popularity.desc",
+      with_genres: 53,
+    },
+  });
+  const thriller = await Instance({
+    url: "discover/movie",
+    params: {
+      sort_by: "popularity.desc",
+      with_genres: 18,
+    },
+  });
+  const respons = Promise.all([action, comedy, thriller]);
   return respons;
 };
 
-export const getmovies = async (params) => {
-  const respons = await axios({
-    method: "GET",
-    url: `https://silo9506-proxy.herokuapp.com/http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2`,
+export const popularMovie = async (params) => {
+  const respons = await Instance({
+    url: "movie/popular",
     params: {
       ...params,
-      ServiceKey: process.env.REACT_APP_KMDB_KEY,
-      detail: "Y",
-    },
-  });
-  return respons.data.Data[0].Result;
-};
-
-export const searchMovie = async (params) => {
-  const respons = await axios({
-    method: "GET",
-    url: `https://silo9506-proxy.herokuapp.com/http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2`,
-    params: {
-      ...params,
-      ServiceKey: process.env.REACT_APP_KMDB_KEY,
-      detail: "Y",
+      sort_by: "popularity.desc",
     },
   });
   return respons.data;
 };
 
-// export const BoxofficeResult = async (params) => {
-//   const respons = await axios({
-//     method: "GET",
-//     url: `https://silo9506-proxy.herokuapp.com/http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2`,
-//     params: {
-//       ...params,
-//       ServiceKey: process.env.REACT_APP_KMDB_KEY,
-//       listCount: 10,
-//       detail: "Y",
-//     },
-//   });
-//   return respons.data.Data[0].Result;
-// };
+export const SearchMovie = async (query, page) => {
+  const respons = await Instance({
+    url: "search/movie",
+    params: {
+      query,
+      page,
+    },
+  });
+  return respons.data;
+};

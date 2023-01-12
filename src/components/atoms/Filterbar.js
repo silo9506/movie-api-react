@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const Filterbar = ({ title }) => {
+const Filterbar = ({ children }) => {
   return (
     <Container>
-      <Title>{title} 의 검색 결과</Title>
+      <Title>{children} 의 검색 결과</Title>
     </Container>
   );
 };

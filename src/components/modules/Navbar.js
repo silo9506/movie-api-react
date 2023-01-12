@@ -1,35 +1,17 @@
 import styled from "styled-components";
 import { ReactComponent as SearchIcon } from "../../assets/icon/search01.svg";
-import { Link, useLocation } from "react-router-dom";
 
-const Navbar = ({
-  text,
-  setText,
-  onSearch,
-  getcontents,
-  setLoding,
-  setMovies,
-}) => {
-  const location = useLocation();
-
-  const home = async () => {
-    setMovies("");
-    setLoding(true);
-    await getcontents();
-    setLoding(false);
+const Navbar = ({ text, setText, searchMovie }) => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    searchMovie();
   };
 
   return (
     <Container>
-      {location.pathname !== "/" ? (
-        <Link to="/" onClick={() => home()}>
-          <Title>RumbleMovies</Title>
-        </Link>
-      ) : (
-        <Title>RumbleMovies</Title>
-      )}
+      <Title>RumbleMovies</Title>
       <Wrapper>
-        <InputBox>
+        <InputBox onSubmit={onSubmit}>
           <div>
             <SearchIcon />
           </div>
@@ -38,12 +20,9 @@ const Navbar = ({
             onChange={(e) => {
               setText(e.target.value);
             }}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") return onSearch();
-            }}
             placeholder="영화 검색"
           ></input>
-          <Btn onClick={() => onSearch()}>검색</Btn>
+          <Btn>검색</Btn>
         </InputBox>
       </Wrapper>
     </Container>
@@ -51,32 +30,25 @@ const Navbar = ({
 };
 
 export default Navbar;
+
 const Container = styled.div`
   background: var(--nav-bg-color);
   z-index: 100;
-  min-height: 56px;
+  height: var(--nav-height);
   display: flex;
   align-items: center;
-  position: sticky;
+  position: fixed;
   top: 0;
+  right: 0;
+  left: 0;
   padding: 0 50px;
-  @media screen and (max-width: 750px) {
-    flex-direction: column;
-    height: 100%;
-  }
-  @media screen and (max-width: 500px) {
-    padding: 0px;
-  }
-  a {
-    flex-grow: 1;
-  }
 `;
 const Title = styled.div`
   font-size: 30px;
   color: var(--logo-color);
   flex-grow: 1;
 `;
-const InputBox = styled.div`
+const InputBox = styled.form`
   position: relative;
   padding: 8px;
   height: 52px;
@@ -97,24 +69,15 @@ const InputBox = styled.div`
     }
   }
   input {
-    min-width: 300px;
+    /* min-width: 300px; */
     padding: 4px;
     padding-left: 50px;
     border-radius: 4px;
     height: 100%;
     background: var(--input-bg-color);
     border: none;
+    color: white;
     outline: none;
-  }
-  @media screen and (max-width: 500px) {
-    input {
-      min-width: 25px;
-      padding: 0px;
-      text-indent: 15px;
-    }
-    div {
-      display: none;
-    }
   }
 `;
 const Btn = styled.button`
@@ -122,6 +85,7 @@ const Btn = styled.button`
   background-color: var(--btn-bg-color);
   border-radius: 4px;
   border: none;
+  color: #fff;
   cursor: pointer;
 `;
 const Wrapper = styled.div`
