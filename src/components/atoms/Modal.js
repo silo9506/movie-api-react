@@ -114,7 +114,6 @@ const Container = styled.div`
         `};
 
   .background {
-    /* display: table-cell; */
     background: rgba(0, 0, 0, 0.9);
     vertical-align: middle;
     height: 100%;
@@ -123,6 +122,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
   }
+
 `;
 
 const Content = styled.div`
@@ -132,7 +132,6 @@ const Content = styled.div`
   height: 70%;
   padding: 20px;
   background: #fff;
-  /* width: fit-content; */
   position: relative;
   background-image: ${({ img }) =>
     `linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)),url(https://image.tmdb.org/t/p/original/${img})`};
@@ -147,17 +146,18 @@ const Content = styled.div`
       : css`
           ${hideContent} 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards
         `};
+  @media screen and (max-width:500px) {
+    width:250px
+  }
 `;
 
 const Title = styled.div`
-  /* display: flex; */
   align-items: center;
   font-size: 22px;
   text-align: center;
   margin-bottom: 10px;
   h1 {
     color: var(--logo-color);
-    /* white-space: nowrap; */
     overflow: hidden;
     text-overflow: ellipsis;
   }

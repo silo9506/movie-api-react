@@ -42,11 +42,18 @@ const Container = styled.div`
   right: 0;
   left: 0;
   padding: 0 50px;
+  @media screen and (max-width:600px) {
+   padding:0px;
+  }
 `;
 const Title = styled.div`
   font-size: 30px;
   color: var(--logo-color);
   flex-grow: 1;
+  @media screen and (max-width:500px) {
+    font-size:20px;
+   
+  }
 `;
 const InputBox = styled.form`
   position: relative;
@@ -62,6 +69,9 @@ const InputBox = styled.form`
     top: 0;
     width: 50px;
     height: 50px;
+    @media screen and (max-width:500px) {
+    display:none;
+    }
     svg {
       width: 21px;
       height: 21px;
@@ -69,7 +79,6 @@ const InputBox = styled.form`
     }
   }
   input {
-    /* min-width: 300px; */
     padding: 4px;
     padding-left: 50px;
     border-radius: 4px;
@@ -78,6 +87,9 @@ const InputBox = styled.form`
     border: none;
     color: white;
     outline: none;
+    @media screen and (max-width:500px) {
+    padding:0px;
+    }
   }
 `;
 const Btn = styled.button`

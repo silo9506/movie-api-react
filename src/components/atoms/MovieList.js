@@ -21,14 +21,8 @@ export default MovieList;
 
 const Container = styled.div`
   display: flex;
-  max-width: 100%;
   width: 100%;
   box-sizing: border-box;
-  /* 
-  @media screen and (max-width: 450px) {
-    flex-direction: column;
-    margin-bottom: 10px;
-  } */
 `;
 const Poster = styled.img`
   height: 100%;
@@ -36,16 +30,12 @@ const Poster = styled.img`
   max-height: 250px;
   cursor: pointer;
   border: 1px solid white;
-  /* @media screen and (max-width: 600px) {
+  @media screen and (max-width: 675px) {
     width: 150px;
   }
-  @media screen and (max-width: 500px) {
-    width: 120px;
+  @media screen and (max-width: 550px) {
+    width: 100%
   }
-  @media screen and (max-width: 450px) {
-    width: 100%;
-    margin-bottom: 10px;
-  } */
 `;
 const AltPoster = styled.div`
   height: 100%;
@@ -61,11 +51,10 @@ const AltPoster = styled.div`
     color: #581a0e;
     text-shadow: 0px 1px 2px #030001;
   }
-  /* @media screen and (max-width: 500px) {
-    width: 120px;
+  @media screen and (max-width: 675px) {
+    width: 150px;
   }
-  @media screen and (max-width: 450px) {
-    width: 100%;
-    margin-bottom: 10px;
-  } */
+  @media screen and (max-width: 550px) {
+    width: 100%
+  }
 `;

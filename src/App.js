@@ -1,12 +1,11 @@
 import { getMovies, popularMovie, SearchMovie } from "api/api";
+import React, { useRef, useEffect, useState } from "react";
 import Modal from "components/atoms/Modal";
 import Navbar from "components/modules/Navbar";
 import Search from "components/templates/Search";
 import Content from "components/templates/Content";
 import data from "data";
-import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
-import Test from "Test";
 
 const App = () => {
   const elementRef = useRef(null);
@@ -151,7 +150,6 @@ const App = () => {
           );
         })}
       </Folders>
-      {/* <Test /> */}
       <Modal select={select} innerRef={modalRef} active={active}></Modal>
     </Container>
   );

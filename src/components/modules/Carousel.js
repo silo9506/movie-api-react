@@ -141,7 +141,7 @@ const Contents = styled.li`
   width: ${({ slideView }) => 100 / slideView}%;
   flex-shrink: 0;
   cursor: pointer;
-  height: 300px;
+  height: 250px;
 `;
 const Poster = styled.img`
   width: 100%;
