@@ -2,19 +2,20 @@ export default {
   Steps: [
     {
       fields: {
-        Background: "#6E7788",
+        // Background: "#6E7788",
+        Background: "#283048",
         Title: "액션",
       },
     },
     {
       fields: {
-        Background: "#5B4D38",
+        Background: "#766E87",
         Title: "스릴러",
       },
     },
     {
       fields: {
-        Background: "#4C3038",
+        Background: "#859398",
         Title: "드라마",
       },
     },

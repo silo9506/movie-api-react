@@ -94,14 +94,17 @@ const App = () => {
     }
   };
 
+  console.log(searchData);
   return (
-    <Container id={"검색"}>
+    <Container id={searchData !== null ? "검색" : "인기영화"}>
       <Navbar
         text={text}
         setText={(q) => setText(q)}
         searchMovie={searchMovie}
       />
-      <SearchTag href={"#검색"}>검색</SearchTag>
+      <SearchTag href={searchData !== null ? "#검색" : "#인기영화"}>
+        인기영화
+      </SearchTag>
       <Search
         activeModal={activeModal}
         changePage={(q) => changePage(q)}

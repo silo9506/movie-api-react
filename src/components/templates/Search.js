@@ -109,13 +109,13 @@ const Gridbox = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 20px;
-  @media screen and (max-width:1050px) {
+  @media screen and (max-width: 1050px) {
     grid-template-columns: repeat(4, 1fr);
   }
-  @media screen and (max-width:875px) {
+  @media screen and (max-width: 875px) {
     grid-template-columns: repeat(3, 1fr);
   }
-  @media screen and (max-width:550px) {
+  @media screen and (max-width: 550px) {
     grid-template-columns: repeat(2, 1fr);
   }
 `;
