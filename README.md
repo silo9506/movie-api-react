@@ -17,9 +17,9 @@
 화면구성
 --------------
 <p align="center" >
-<img src="https://user-images.githubusercontent.com/110013101/226091033-0d96d038-995e-48eb-bb67-b08bf20a7be0.jpg"  >
+<img src="https://user-images.githubusercontent.com/110013101/226091033-0d96d038-995e-48eb-bb67-b08bf20a7be0.jpg"  width="33%"  >
 
-<img src="https://user-images.githubusercontent.com/110013101/226091034-272890c7-0b84-4cb6-810e-ca305e03f03d.jpg"  >
+<img src="https://user-images.githubusercontent.com/110013101/226091034-272890c7-0b84-4cb6-810e-ca305e03f03d.jpg"  width="33%" >
 
-<img src="https://user-images.githubusercontent.com/110013101/226091036-17483173-d27c-4f2d-abf9-79a7ffd2cf22.jpg"  >
+<img src="https://user-images.githubusercontent.com/110013101/226091036-17483173-d27c-4f2d-abf9-79a7ffd2cf22.jpg"   width="33%" >
 </p>
